@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yu-Gi-Oh! Small World Bridge Finder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        .container {
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Yu-Gi-Oh! Small World Bridge Finder</h1>
+
+        <!-- File Upload Form -->
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="file" class="form-label">Upload .ydk File</label>
+                <input type="file" class="form-control" name="file" accept=".ydk">
+            </div>
+            <button type="submit" class="btn btn-success w-100">Upload Deck</button>
+        </form>
+
+        <!-- Card Selection Form -->
+        <form method="POST" class="mt-4">
+            <div class="mb-3">
+                <label for="hand" class="form-label">Select Cards in Hand</label>
+                <select class="form-select" name="hand" multiple required>
+                    {% for card in cards %}
+                        <option value="{{ card['name'] }}">{{ card['name'] }}</option>
+                    {% endfor %}
+                </select>
+                <div class="form-text">Hold down the Ctrl (Windows) or Command (Mac) button to select multiple options.</div>
+            </div>
+            <div class="mb-3">
+                <label for="target" class="form-label">Select Target Card</label>
+                <select class="form-select" name="target" required>
+                    {% for card in cards %}
+                        <option value="{{ card['name'] }}">{{ card['name'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Find Bridges</button>
+        </form>
+
+        {% if result %}
+            <div class="mt-4">
+                <h2>Result:</h2>
+                <pre>{{ result }}</pre>
+            </div>
+        {% endif %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
